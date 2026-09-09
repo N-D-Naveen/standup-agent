@@ -4,6 +4,7 @@ Built with Strands Agents SDK + AWS Bedrock
 """
 
 from strands import Agent, tool
+from strands.models import BedrockModel
 
 
 @tool
@@ -44,8 +45,14 @@ def summarize_notes(raw_notes: str) -> str:
     return f"Key points extracted:\n{bullets}"
 
 
-# Create the agent
+# Create the agent using Amazon Nova Pro (no use-case form required)
+model = BedrockModel(
+    model_id="amazon.nova-pro-v1:0",
+    region_name="us-east-1",
+)
+
 agent = Agent(
+    model=model,
     system_prompt="""You are a helpful daily standup assistant for software developers and professionals.
 
 Your job is to help users create clear, concise daily standup updates from their messy notes or free-form text.
